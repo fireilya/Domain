@@ -3,13 +3,18 @@ using System.Collections.Generic;
 
 namespace Domain.Scheduler
 {
-    public record CapacitySubtask(string Name, uint BaseEfficiency, uint BaseCapacity, Dictionary<Tool, uint> ToolsCapacity) :
-        Subtask(Name, BaseEfficiency)
+    public record CapacitySubtask(
+        Guid Id, 
+        string Name, 
+        int BaseEfficiency, 
+        int BaseCapacity, 
+        IReadOnlyDictionary<Guid, uint> ToolsCapacity) :
+        Subtask(Id, Name, BaseEfficiency)
     {
-        public uint BaseCapacity { get; } = BaseCapacity;
-        public Dictionary<Tool, uint> ToolsCapacity { get; } = ToolsCapacity;
+        public int BaseCapacity { get; } = BaseCapacity;
+        public IReadOnlyDictionary<Guid, uint> ToolsCapacity { get; } =  ToolsCapacity;
         public Tool? ChosenTool { get; set; } = null;
 
-        public override uint Efficiency => BaseEfficiency;
+        public override int Efficiency => BaseEfficiency;
     }
 }
