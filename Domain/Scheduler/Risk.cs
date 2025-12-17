@@ -2,7 +2,7 @@ using System;
 
 namespace Domain.Scheduler
 {
-    public record Risk(Guid Id, double Chance, Neutralizer Neutralizer)
+    public record Risk(Guid Id, Neutralizer Neutralizer)
     {
         public Guid Id { get; } = Id;
         public double Chance { get; } = 0.5;
