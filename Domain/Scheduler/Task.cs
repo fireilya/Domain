@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -5,16 +6,16 @@ namespace Domain.Scheduler
 {
     public record Task
     {
+        public Guid Id { get; }
         public string Name { get; }
-        public uint Target { get; }
-        public uint DayLimit { get; }
-        public List<Subtask> Subtasks { get; }
+        public int Target { get; }
+        public short DayLimit { get; }
+        public Subtask[] Subtasks { get; }
         public bool IsTrue { get; }
 
-        public int CurrentSubtaskIndex { get; } = 0;
-
-        public Task(string name, uint target, uint dayLimit, List<Subtask> subtasks, bool isTrue) 
+        public Task(Guid id, string name, int target, short dayLimit, Subtask[] subtasks, bool isTrue)
         {
+            Id = id;
             Name = name;
             Target = target;
             DayLimit = dayLimit;
@@ -25,7 +26,5 @@ namespace Domain.Scheduler
         }
         
         public bool IsDone => Subtasks.All(task => task.IsDone);
-        
-        public Subtask currentSubtask => Subtasks[CurrentSubtaskIndex];
     }
 }

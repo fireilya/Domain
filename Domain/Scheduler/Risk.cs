@@ -2,9 +2,10 @@ using System;
 
 namespace Domain.Scheduler
 {
-    public record Risk(double Chance, Neutralizer Neutralizer)
+    public record Risk(Guid Id, double Chance, Neutralizer Neutralizer)
     {
-        public double Chance { get; } = Chance;
+        public Guid Id { get; } = Id;
+        public double Chance { get; } = 0.5;
         public Neutralizer Neutralizer { get; } = Neutralizer;
         private readonly Random _random = new Random();
         public bool IsNeutralizerFound { get; set; }
