@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Threading;
 
 namespace Domain.Enumerations
 {
@@ -14,6 +13,7 @@ namespace Domain.Enumerations
         {
             NameInStorage = nameInStorage;
         }
+
         public string NameInStorage { get; set; }
     }
 }

@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
 
 namespace Domain.Scheduler
@@ -24,7 +23,7 @@ namespace Domain.Scheduler
 
             foreach (var task in Subtasks) task.Parent = this;
         }
-        
+
         public bool IsDone => Subtasks.All(task => task.IsDone);
     }
 }
