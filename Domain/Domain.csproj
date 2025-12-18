@@ -9,6 +9,7 @@
     <ItemGroup>
       <Folder Include="Brief\" />
       <Folder Include="Navigator\" />
+      <Folder Include="Scheduler\" />
       <Folder Include="FlattenDtos\" />
       <Folder Include="Enumerations\" />
     </ItemGroup>

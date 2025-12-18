@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace Domain.Scheduler
 {
-    public record Task
+    public record GameTask
     {
         public Guid Id { get; }
         public string Name { get; }
@@ -13,7 +13,7 @@ namespace Domain.Scheduler
         public Subtask[] Subtasks { get; }
         public bool IsTrue { get; }
 
-        public Task(Guid id, string name, int target, short dayLimit, Subtask[] subtasks, bool isTrue)
+        public GameTask(Guid id, string name, int target, short dayLimit, Subtask[] subtasks, bool isTrue)
         {
             Id = id;
             Name = name;
