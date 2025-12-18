@@ -3,6 +3,8 @@ using System.Text.Json.Serialization;
 
 namespace Domain.Scheduler
 {
+    [JsonDerivedType(typeof(CapacitySubtask), typeDiscriminator: "capacity_subtask")]
+    [JsonDerivedType(typeof(ProcessSubtask), typeDiscriminator: "process_subtask")]
     public abstract record Subtask(
         Guid Id,
         string Name,
