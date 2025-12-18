@@ -1,5 +1,3 @@
-using System;
-
 namespace Domain.FlattenDtos
 {
     public record InfoSourceLevelDto(int Id, short InteractTimeInMinute)
