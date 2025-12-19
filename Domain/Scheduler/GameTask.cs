@@ -24,6 +24,8 @@ namespace Domain.Scheduler
             foreach (var task in Subtasks) task.Parent = this;
         }
 
-        public bool IsDone => Subtasks.All(task => task.IsDone);
+        public bool IsDone => Subtasks.Last().IsDone;
+        
+        public int Progress => Subtasks.Last().Progress;
     }
 }
