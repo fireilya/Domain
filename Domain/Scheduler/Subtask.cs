@@ -9,6 +9,7 @@ namespace Domain.Scheduler
         Guid Id,
         string Name,
         int BaseEfficiency,
+        int Order,
         bool IsUseCapacityTool
     )
     {
@@ -28,24 +29,24 @@ namespace Domain.Scheduler
             }
         }
 
-        public bool IsUseCapacityTool { get; set; } = IsUseCapacityTool;
+        public bool IsUseCapacityTool { get; private set; } = IsUseCapacityTool;
+        
+        public int Order { get; set; } = Order;
 
         [JsonIgnore]
-        public Subtask? PreviousSubtask { get; set; } = null;
-
-
-        [JsonIgnore]
-        public int Progress { get; } = 0;
+        public int Progress { get; set; } = 0;
 
         public int BaseEfficiency { get; } = BaseEfficiency;
 
         [JsonIgnore]
         public bool IsDone => _parent != null && Progress == _parent.Target;
 
-        [JsonIgnore]
-        public abstract int Efficiency { get; }
-
-        [JsonIgnore]
-        public int WorkCanBeDone => PreviousSubtask?.Progress ?? Parent!.Target;
+        public bool TryGetWorkConstraint(out int maxCanBeDone)
+        {
+            maxCanBeDone = -1;
+            if (Order == 0) return false;
+            maxCanBeDone = Parent!.GetSubtaskParentByOrder(Order)!.Progress;
+            return true;
+        }
     }
 }

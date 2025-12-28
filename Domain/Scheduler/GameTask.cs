@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using JetBrains.Annotations;
 
 namespace Domain.Scheduler
 {
@@ -18,14 +19,24 @@ namespace Domain.Scheduler
             Name = name;
             Target = target;
             DayLimit = dayLimit;
-            Subtasks = subtasks;
+            Subtasks = subtasks.OrderBy(x => x.Order).ToArray();
             IsTrue = isTrue;
-
-            foreach (var task in Subtasks) task.Parent = this;
+            for (var i = 0; i < Subtasks.Length; i++)
+            {
+                Subtasks[i].Parent = this;
+                Subtasks[i].Order = i;
+            }
         }
 
+        [CanBeNull]
+        public Subtask GetSubtaskParent(Subtask subtask) => GetSubtaskParentByOrder(subtask.Order);
+
+        [CanBeNull]
+        public Subtask GetSubtaskParentByOrder(int order) =>
+            order == 0 || Subtasks.Length == 0 ? null : Subtasks[order - 1];
+
         public bool IsDone => Subtasks.Last().IsDone;
-        
+
         public int Progress => Subtasks.Last().Progress;
     }
 }

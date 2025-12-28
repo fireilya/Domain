@@ -7,15 +7,16 @@ namespace Domain.Scheduler
         Guid Id,
         string Name,
         int BaseEfficiency,
+        int Order,
         bool IsUseCapacityTool,
         int BaseCapacity,
         IReadOnlyDictionary<Guid, short> ToolsCapacity
-    ) : Subtask(Id, Name, BaseEfficiency, IsUseCapacityTool)
+    ) : Subtask(Id, Name, BaseEfficiency, Order, IsUseCapacityTool)
     {
         public int BaseCapacity { get; } = BaseCapacity;
         public IReadOnlyDictionary<Guid, short> ToolsCapacity { get; } = ToolsCapacity;
-        public Tool? ChosenTool { get; set; } = null;
+        public int GetEfficiency => BaseEfficiency;
 
-        public override int Efficiency => BaseEfficiency;
+        public int GetToolCapacity(Guid toolID) => ToolsCapacity.ContainsKey(toolID) ? ToolsCapacity[toolID] : BaseCapacity;
     }
 }
