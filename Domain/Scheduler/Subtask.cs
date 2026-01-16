@@ -16,15 +16,15 @@ namespace Domain.Scheduler
         public Guid Id { get; } = Id;
         public string Name { get; } = Name;
 
-        private GameTask? _parent;
+        private GameTask _gameTask;
 
         [JsonIgnore]
-        public GameTask? Parent
+        public GameTask GameTask
         {
-            get => _parent;
+            get => _gameTask;
             set
             {
-                if (_parent is null) _parent = value;
+                if (_gameTask is null) _gameTask = value;
                 else throw new InvalidOperationException("You cannot reassign subtask parent");
             }
         }
@@ -33,20 +33,50 @@ namespace Domain.Scheduler
         
         public int Order { get; set; } = Order;
 
+        public Guid LocationID => GameTask.LocationID;
+
         [JsonIgnore]
-        public int Progress { get; set; } = 0;
+        public int DoneProgress { get; private set; } = 0;
+
+        [JsonIgnore] public int CurrentDayProgress { get; set; } = 0;
+
+        public int TotalProgress => DoneProgress + CurrentDayProgress;
+        
+        public void ResetDayProgress() => CurrentDayProgress = 0;
+
+        public void ApplyDayProgress()
+        {
+            DoneProgress += CurrentDayProgress;
+            CurrentDayProgress = 0;
+        }
 
         public int BaseEfficiency { get; } = BaseEfficiency;
 
         [JsonIgnore]
-        public bool IsDone => _parent != null && Progress == _parent.Target;
+        public bool IsDone => _gameTask != null && DoneProgress >= _gameTask.Target;
+
+        [JsonIgnore]
+        public Subtask ParentSubtask => GameTask.GetSubtaskParentByOrder(Order);
+        
+        public bool HasParent => ParentSubtask != null;
 
         public bool TryGetWorkConstraint(out int maxCanBeDone)
         {
             maxCanBeDone = -1;
             if (Order == 0) return false;
-            maxCanBeDone = Parent!.GetSubtaskParentByOrder(Order)!.Progress;
+            maxCanBeDone = GameTask!.GetSubtaskParentByOrder(Order)!.TotalProgress - TotalProgress;
             return true;
+        }
+
+        public override int GetHashCode()
+        {
+            return Id.GetHashCode();
+        }
+
+        public void ResetAllProgress()
+        {
+            DoneProgress = 0;
+            CurrentDayProgress = 0;
         }
     }
 }

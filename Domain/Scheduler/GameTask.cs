@@ -6,12 +6,23 @@ namespace Domain.Scheduler
 {
     public record GameTask
     {
+        private Guid _locationID = Guid.Empty;
         public Guid Id { get; }
         public string Name { get; }
         public int Target { get; }
         public short DayLimit { get; }
         public Subtask[] Subtasks { get; }
         public bool IsTrue { get; }
+
+        public Guid LocationID
+        {
+            get => _locationID;
+            set
+            {
+                if (_locationID != Guid.Empty) throw new Exception("Reassigning location ID not allowed.");
+                _locationID = value;
+            }
+        }
 
         public GameTask(Guid id, string name, int target, short dayLimit, Subtask[] subtasks, bool isTrue)
         {
@@ -23,7 +34,7 @@ namespace Domain.Scheduler
             IsTrue = isTrue;
             for (var i = 0; i < Subtasks.Length; i++)
             {
-                Subtasks[i].Parent = this;
+                Subtasks[i].GameTask = this;
                 Subtasks[i].Order = i;
             }
         }
@@ -37,6 +48,11 @@ namespace Domain.Scheduler
 
         public bool IsDone => Subtasks.Last().IsDone;
 
-        public int Progress => Subtasks.Last().Progress;
+        public int Progress => Subtasks.Last().DoneProgress;
+
+        public void Reset()
+        {
+            foreach (var subtask in Subtasks) subtask.ResetAllProgress();
+        }
     }
 }

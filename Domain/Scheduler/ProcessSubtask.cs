@@ -13,6 +13,6 @@ namespace Domain.Scheduler
     {
         public double GetWorkToolCoeff(Guid toolId) => (toolId != NeededToolId ? 0.5 : 1.0);
         public Guid NeededToolId { get; } = NeededToolId;
-        public int GetToolEfficiency(Guid toolId) => (int)(BaseEfficiency * GetWorkToolCoeff(toolId));
+        public int GetWithToolEfficiency(Guid toolId) => (int)(BaseEfficiency * GetWorkToolCoeff(toolId));
     }
 }

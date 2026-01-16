@@ -2,13 +2,25 @@ using System;
 
 namespace Domain.Scheduler
 {
-    public record Location(Guid Id, string Name, string PathToIcon, GameTask[] Tasks, Risk Risk, short MappingKey)
+    public record Location
     {
-        public Guid Id { get; } = Id;
-        public string Name { get; } = Name;
-        public string PathToIcon { get; } = PathToIcon;
-        public GameTask[] Tasks { get; } = Tasks;
-        public Risk Risk { get; } = Risk;
-        public short MappingKey {get;} = MappingKey;
+        public Location(Guid id, string name, string pathToIcon, GameTask[] tasks, Risk risk, short mappingKey)
+        {
+            Id = id;
+            Name = name;
+            PathToIcon = pathToIcon;
+            Tasks = tasks;
+            Risk = risk;
+            MappingKey = mappingKey;
+
+            foreach (var task in Tasks) task.LocationID = Id;
+        }
+
+        public Guid Id { get; }
+        public string Name { get; }
+        public string PathToIcon { get; }
+        public GameTask[] Tasks { get; }
+        public Risk Risk { get; }
+        public short MappingKey {get;}
     }
 }
