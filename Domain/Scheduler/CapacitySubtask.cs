@@ -7,7 +7,7 @@ namespace Domain.Scheduler
         Guid Id,
         string Name,
         int BaseEfficiency,
-        int Order,
+        short Order,
         bool IsUseCapacityTool,
         int BaseCapacity,
         IReadOnlyDictionary<Guid, short> ToolsCapacity

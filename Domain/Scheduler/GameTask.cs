@@ -34,7 +34,7 @@ namespace Domain.Scheduler
             for (var i = 0; i < Subtasks.Length; i++)
             {
                 Subtasks[i].GameTask = this;
-                Subtasks[i].Order = i;
+                Subtasks[i].Order = (short)i;
             }
         }
         

@@ -6,7 +6,7 @@ namespace Domain.Scheduler
         Guid Id, 
         string Name, 
         int BaseEfficiency, 
-        int Order,
+        short Order,
         bool IsUseCapacityTool, 
         Guid NeededToolId) :
         Subtask(Id, Name, BaseEfficiency, Order, IsUseCapacityTool)

@@ -9,7 +9,7 @@ namespace Domain.Scheduler
         Guid Id,
         string Name,
         int BaseEfficiency,
-        int Order,
+        short Order,
         bool IsUseCapacityTool
     )
     {
@@ -31,7 +31,7 @@ namespace Domain.Scheduler
 
         public bool IsUseCapacityTool { get; private set; } = IsUseCapacityTool;
         
-        public int Order { get; set; } = Order;
+        public short Order { get; set; } = Order;
 
         public Guid LocationID => GameTask.LocationID;
 
