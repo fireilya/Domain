@@ -1,6 +1,5 @@
 using System;
 using System.Linq;
-using JetBrains.Annotations;
 
 namespace Domain.Scheduler
 {
@@ -38,11 +37,9 @@ namespace Domain.Scheduler
                 Subtasks[i].Order = i;
             }
         }
-
-        [CanBeNull]
+        
         public Subtask GetSubtaskParent(Subtask subtask) => GetSubtaskParentByOrder(subtask.Order);
-
-        [CanBeNull]
+        
         public Subtask GetSubtaskParentByOrder(int order) =>
             order == 0 || Subtasks.Length == 0 ? null : Subtasks[order - 1];
 
