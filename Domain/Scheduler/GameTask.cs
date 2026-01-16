@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using System.Text.Json.Serialization;
 
 namespace Domain.Scheduler
 {
@@ -18,6 +19,7 @@ namespace Domain.Scheduler
             get => _locationID;
             set
             {
+                if (_locationID == value) return;
                 if (_locationID != Guid.Empty) throw new Exception("Reassigning location ID not allowed.");
                 _locationID = value;
             }
@@ -38,13 +40,15 @@ namespace Domain.Scheduler
             }
         }
         
-        public Subtask GetSubtaskParent(Subtask subtask) => GetSubtaskParentByOrder(subtask.Order);
+        public Subtask? GetSubtaskParent(Subtask subtask) => GetSubtaskParentByOrder(subtask.Order);
         
-        public Subtask GetSubtaskParentByOrder(int order) =>
+        public Subtask? GetSubtaskParentByOrder(int order) =>
             order == 0 || Subtasks.Length == 0 ? null : Subtasks[order - 1];
 
+        [JsonIgnore]
         public bool IsDone => Subtasks.Last().IsDone;
 
+        [JsonIgnore]
         public int Progress => Subtasks.Last().DoneProgress;
 
         public void Reset()

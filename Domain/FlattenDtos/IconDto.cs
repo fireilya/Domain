@@ -1,11 +1,11 @@
 ﻿namespace Domain.FlattenDtos
 {
     public record IconDto(
-        string Id,
+        string Path,
         byte[] Body
     )
     {
-        public string Id { get; set; } = Id;
+        public string Path { get; set; } = Path;
         public byte[] Body { get; set; } = Body;
     }
 }

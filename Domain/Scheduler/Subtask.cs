@@ -16,6 +16,7 @@ namespace Domain.Scheduler
         public Guid Id { get; } = Id;
         public string Name { get; } = Name;
 
+
         private GameTask _gameTask;
 
         [JsonIgnore]
@@ -28,18 +29,21 @@ namespace Domain.Scheduler
                 else throw new InvalidOperationException("You cannot reassign subtask parent");
             }
         }
-
+        
         public bool IsUseCapacityTool { get; private set; } = IsUseCapacityTool;
         
         public short Order { get; set; } = Order;
 
+        [JsonIgnore]
         public Guid LocationID => GameTask.LocationID;
 
         [JsonIgnore]
         public int DoneProgress { get; private set; } = 0;
 
-        [JsonIgnore] public int CurrentDayProgress { get; set; } = 0;
+        [JsonIgnore] 
+        public int CurrentDayProgress { get; set; } = 0;
 
+        [JsonIgnore]
         public int TotalProgress => DoneProgress + CurrentDayProgress;
         
         public void ResetDayProgress() => CurrentDayProgress = 0;
@@ -54,10 +58,11 @@ namespace Domain.Scheduler
 
         [JsonIgnore]
         public bool IsDone => _gameTask != null && DoneProgress >= _gameTask.Target;
-
-        [JsonIgnore]
-        public Subtask ParentSubtask => GameTask.GetSubtaskParentByOrder(Order);
         
+        [JsonIgnore]
+        public Subtask? ParentSubtask => GameTask.GetSubtaskParentByOrder(Order);
+        
+        [JsonIgnore]
         public bool HasParent => ParentSubtask != null;
 
         public bool TryGetWorkConstraint(out int maxCanBeDone)
