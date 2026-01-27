@@ -47,6 +47,9 @@ namespace Domain.Scheduler
 
         [JsonIgnore]
         public bool IsDone => Subtasks.Last().IsDone;
+        
+        [JsonIgnore]
+        public float DoneFraction => Subtasks.Last().DoneFraction;
 
         [JsonIgnore]
         public int Progress => Subtasks.Last().DoneProgress;

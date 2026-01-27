@@ -36,6 +36,9 @@ namespace Domain.Scheduler
 
         [JsonIgnore]
         public Guid LocationID => GameTask.LocationID;
+        
+        [JsonIgnore]
+        public int Target => GameTask.Target;
 
         [JsonIgnore]
         public int DoneProgress { get; private set; } = 0;
@@ -57,7 +60,10 @@ namespace Domain.Scheduler
         public int BaseEfficiency { get; } = BaseEfficiency;
 
         [JsonIgnore]
-        public bool IsDone => _gameTask != null && DoneProgress >= _gameTask.Target;
+        public bool IsDone => _gameTask != null && DoneProgress >= Target;
+        
+        [JsonIgnore]
+        public float DoneFraction => Math.Min((float)DoneProgress / Target, 1f);
         
         [JsonIgnore]
         public Subtask? ParentSubtask => GameTask.GetSubtaskParentByOrder(Order);
